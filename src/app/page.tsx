@@ -3,29 +3,57 @@
 import Dialog from "@/components/dialog";
 import { Flex, Button, IconButton, Text, TextField } from "@radix-ui/themes";
 import { AvatarIcon, EyeOpenIcon } from "@radix-ui/react-icons";
-import { ChangeEventHandler, FormEventHandler, useMemo, useState } from "react";
+import { FormEventHandler } from "react";
+
+import { fetchUtils } from "./utils/api";
+import { AuthLoginDto, UserDto } from "./api/auth/type";
+import { useInput, useToggle } from "./hooks";
+import { useRouter } from "next/navigation";
+
+type InputType = "email" | "password";
 
 export default function Home() {
-  const [pwdVisible, setPwdVisible] = useState<boolean>(false);
+  const route = useRouter();
 
-  const [inputValue, setInputValue] = useState({
-    email: "",
-    password: "",
-  });
+  const { toggle, handleToggle } = useToggle();
 
-  const handleSubmit: FormEventHandler = (e) => {
-    e.preventDefault();
-
-    console.log("나야 서브밋");
+  // 각 입력 필드의 유효성을 체크 할 객체
+  const validation = {
+    email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    password: /^.{5,}$/,
   };
 
-  const isValueCheck = useMemo(() => {
-    return Object.values(inputValue).filter((e) => !e.trim().length);
-  }, [inputValue]);
+  const initState = {
+    email: "",
+    password: "",
+  };
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { name, value } = e.target;
-    setInputValue((prev) => ({ ...prev, [name]: value }));
+  const { handleValidation, handleChange, inputValue } = useInput<InputType>(
+    initState,
+    validation
+  );
+
+  const handleSubmit: FormEventHandler = async (e) => {
+    e.preventDefault();
+
+    // 유효성 검사
+    if (!handleValidation()) {
+      console.error("error");
+    }
+
+    const { email, password } = inputValue;
+
+    const userData = await fetchUtils.post<UserDto, AuthLoginDto>({
+      url: "auth/login",
+      body: {
+        userEmail: email,
+        password: password,
+      },
+    });
+
+    if (userData) {
+      route.push("/user-list");
+    }
   };
 
   return (
@@ -65,7 +93,7 @@ export default function Home() {
               <TextField.Root
                 onChange={handleChange}
                 name="password"
-                type={pwdVisible ? "text" : "password"}
+                type={toggle ? "text" : "password"}
                 placeholder="비밀번호를 입력해주세요"
               >
                 <TextField.Slot side="right">
@@ -73,14 +101,14 @@ export default function Home() {
                     size="1"
                     variant="ghost"
                     color="gray"
-                    onClick={() => setPwdVisible(!pwdVisible)}
+                    onClick={handleToggle}
                   >
                     <EyeOpenIcon />
                   </IconButton>
                 </TextField.Slot>
               </TextField.Root>
             </label>
-            <Dialog.Footer disabled={!!isValueCheck.length} label="Log-In" />
+            <Dialog.Footer disabled={!handleValidation()} label="Log-In" />
           </Flex>
         </form>
       </Dialog.Content>
