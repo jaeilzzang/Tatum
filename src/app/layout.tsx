@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "@radix-ui/themes/styles.css";
+
 import "./globals.css";
+import "@radix-ui/themes/tokens.css";
+import "@radix-ui/themes/components.css";
+import "@radix-ui/themes/utilities.css";
 
 import { Theme } from "@radix-ui/themes";
 
@@ -29,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Theme>{children}</Theme>
+        <Theme scaling="100%">{children}</Theme>
       </body>
     </html>
   );
