@@ -66,7 +66,6 @@ const Table = ({ rows, cell }: Props) => {
         {rows.map((row, rowIndex) => (
           <RadixTable.Row key={rowIndex}>
             {cell.map(({ key }, cellIndex) => {
-              console.log(row, key);
               return (
                 <RadixTable.Cell key={cellIndex}>{row[key]}</RadixTable.Cell>
               );
