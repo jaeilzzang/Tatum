@@ -1,5 +1,8 @@
-import React, { useMemo, useState } from "react";
+"use client";
+
+import React, { useMemo } from "react";
 import Checkbox from "./checkbox";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   item: {
@@ -8,24 +11,41 @@ interface Props {
   }[];
 }
 
-type State = Record<string, boolean>;
-
 const CheckboxGroup = ({ item }: Props) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams().get("checked");
+
+  const checkParams = searchParams ? searchParams.split(",") : [];
+
   const newFilterList = [{ id: "all", name: "ALL" }, ...item];
 
-  const allChecked = (checked: boolean) =>
-    newFilterList.reduce((acc, { id }) => {
-      acc[id] = checked;
-      return acc;
-    }, {} as State);
+  const isAll = useMemo(
+    () => checkParams.length === item.length || checkParams.includes("all"),
+    [checkParams, item.length]
+  );
 
-  const [checkState, setCheckState] = useState<State>(() => allChecked(true));
+  // 체크 상태 업데이트
+  const handleCheckedChange = (id: string) => {
+    let updatedParams = [...checkParams];
 
-  const allCheckedFilter = Object.keys(checkState).filter((id) => id !== "all");
+    if (id === "all") {
+      // 'all' 선택 시, 전체 선택/해제
+      updatedParams = isAll ? [] : item.map((e) => e.id);
+    } else if (updatedParams.includes(id)) {
+      updatedParams = updatedParams.filter((param) => param !== id);
+    } else {
+      updatedParams.push(id);
+    }
 
-  const isAllChecked = useMemo(() => {
-    return allCheckedFilter.every((id) => checkState[id]);
-  }, [checkState]);
+    // 쿼리스트링 업데이트
+    if (updatedParams.length) {
+      router.push(pathname + `?checked=${updatedParams.join(",")}`);
+      return;
+    }
+
+    router.push(pathname);
+  };
 
   return (
     <>
@@ -36,22 +56,8 @@ const CheckboxGroup = ({ item }: Props) => {
             key={id}
             id={id}
             label={name}
-            checked={id === "all" ? isAllChecked : checkState[id]}
-            onCheckedChange={(checked) => {
-              setCheckState((prev) => {
-                if (id === "all") {
-                  return {
-                    ...prev,
-                    ...allChecked(Boolean(checked)),
-                  };
-                }
-
-                return {
-                  ...prev,
-                  [id]: Boolean(checked),
-                };
-              });
-            }}
+            checked={isAll ? true : checkParams.includes(id)}
+            onCheckedChange={() => handleCheckedChange(id)}
           />
         );
       })}

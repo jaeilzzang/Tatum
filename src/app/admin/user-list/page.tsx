@@ -10,8 +10,15 @@ import React from "react";
 import Count from "@/components/count";
 import { filterItem, selectSearchItem, cell } from "./constants";
 
-const UserListPage = async () => {
-  const getUser = await fetchUtils.get<UserDto[]>({ url: "list/user" });
+interface Props {
+  params: {};
+  searchParams: { checked: string };
+}
+
+const UserListPage = async ({ searchParams }: Props) => {
+  const getUser = await fetchUtils.get<UserDto[]>({
+    url: `list/user?checked=${searchParams.checked}`,
+  });
 
   return (
     <Flex m={"4"} direction={"column"} width={"100%"}>

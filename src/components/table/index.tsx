@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
-import { Table as RadixTable } from "@radix-ui/themes";
+import { Flex, Table as RadixTable } from "@radix-ui/themes";
 import React, { useState } from "react";
 
 import styles from "./table.module.css";
@@ -41,39 +41,49 @@ const Table = ({ rows, cell }: Props) => {
   };
 
   return (
-    <RadixTable.Root>
-      <RadixTable.Header>
-        <RadixTable.Row>
-          {cell.map(({ label, key }, i) => (
-            <RadixTable.ColumnHeaderCell
-              key={i}
-              align="center"
-              onClick={() => handleSort(key)}
-              className={styles.header_cell}
-            >
-              <div className={styles.cell}>
-                {label}
+    <Flex align={"center"} direction={"column"}>
+      <RadixTable.Root>
+        <RadixTable.Header>
+          <RadixTable.Row>
+            {cell.map(({ label, key }, i) => (
+              <RadixTable.ColumnHeaderCell
+                key={i}
+                width={"200px"}
+                align="center"
+                onClick={() => handleSort(key)}
+                className={styles.header_cell}
+              >
+                <div className={styles.cell}>
+                  {label}
 
-                {/* todo sort 구현 */}
-                {/* {sort[name] ? <ArrowDownIcon /> : <ArrowUpIcon />} */}
-              </div>
-            </RadixTable.ColumnHeaderCell>
-          ))}
-        </RadixTable.Row>
-      </RadixTable.Header>
-
-      <RadixTable.Body>
-        {rows.map((row, rowIndex) => (
-          <RadixTable.Row key={rowIndex}>
-            {cell.map(({ key }, cellIndex) => {
-              return (
-                <RadixTable.Cell key={cellIndex}>{row[key]}</RadixTable.Cell>
-              );
-            })}
+                  {/* todo sort 구현 */}
+                  {/* {sort[name] ? <ArrowDownIcon /> : <ArrowUpIcon />} */}
+                </div>
+              </RadixTable.ColumnHeaderCell>
+            ))}
           </RadixTable.Row>
-        ))}
-      </RadixTable.Body>
-    </RadixTable.Root>
+        </RadixTable.Header>
+
+        <RadixTable.Body>
+          {rows.map((row, rowIndex) => (
+            <RadixTable.Row key={rowIndex}>
+              {cell.map(({ key }, cellIndex) => {
+                return (
+                  <RadixTable.Cell key={cellIndex}>{row[key]}</RadixTable.Cell>
+                );
+              })}
+            </RadixTable.Row>
+          ))}
+        </RadixTable.Body>
+      </RadixTable.Root>
+
+      {/* NO DATA */}
+      {!rows.length && (
+        <Flex align={"center"} height={"20vh"}>
+          NO DATA
+        </Flex>
+      )}
+    </Flex>
   );
 };
 
