@@ -11,13 +11,13 @@ import {
   AvatarIcon,
   FileIcon,
 } from "@radix-ui/react-icons";
-import { useToggle } from "@/app/hooks";
+import { useToggle } from "@/hooks";
 import { clsx } from "clsx";
 
 import { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ROUTE } from "@/app/constants/route";
+import { ROUTE } from "@/constants/route";
 
 export type TSidebarMenu = {
   name: string;

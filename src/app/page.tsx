@@ -5,9 +5,9 @@ import { Flex, Button, IconButton, Text, TextField } from "@radix-ui/themes";
 import { AvatarIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import { FormEventHandler } from "react";
 
-import { fetchUtils } from "./utils/api";
+import { fetchUtils } from "@/utils/api";
 import { AuthLoginDto, UserDto } from "./api/auth/type";
-import { useInput, useToggle } from "./hooks";
+import { useInput, useToggle } from "@/hooks";
 import { useRouter } from "next/navigation";
 
 type InputType = "email" | "password";
