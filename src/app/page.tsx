@@ -9,6 +9,7 @@ import { fetchUtils } from "@/utils/api";
 import { AuthLoginDto, UserDto } from "./api/auth/type";
 import { useInput, useToggle } from "@/hooks";
 import { useRouter } from "next/navigation";
+import { ROUTE } from "@/constants/route";
 
 type InputType = "email" | "password";
 
@@ -52,7 +53,9 @@ export default function Home() {
     });
 
     if (userData) {
-      route.push("/user-list");
+      // 인증 완료 시 유저 데이터 저장
+      localStorage.setItem("user", JSON.stringify(userData));
+      route.push(ROUTE.ADMIN.USERS);
     }
   };
 
