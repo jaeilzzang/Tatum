@@ -1,0 +1,65 @@
+.sidebar {
+  background-color: var(--teal-9);
+
+  transition: all 0.3s;
+
+  width: 68px;
+
+  overflow: hidden;
+}
+
+.sidebar.open {
+  width: 200px;
+}
+
+.toggle {
+  position: absolute;
+  top: 2rem;
+  right: -1rem;
+
+  border-radius: 50%;
+
+  background-color: var(--teal-12);
+}
+
+.nav_container {
+  margin: 0 1rem;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav {
+  min-width: 38px;
+
+  width: 100%;
+
+  padding: 4px 8px;
+
+  background-color: transparent;
+
+  gap: 0.875rem;
+
+  justify-content: flex-start;
+
+  font-weight: 500;
+
+  &:hover {
+    background-color: var(--teal-12);
+  }
+
+  & > svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.nav_close {
+  width: 0%;
+}
+
+.nav.active {
+  background-color: var(--teal-12);
+}
