@@ -64,6 +64,7 @@ const Sidebar = () => {
             {sidebarMenu.map(({ href, icon, name }) => {
               return (
                 <IconButton
+                  key={name}
                   asChild
                   className={clsx(styles.nav, {
                     [styles.active]: pathname === href,
