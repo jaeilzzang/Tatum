@@ -4,18 +4,27 @@ import { UserDto } from "@/app/api/auth/type";
 import { AvatarIcon } from "@radix-ui/react-icons";
 import { Flex, Text } from "@radix-ui/themes";
 import { redirect } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Avatar = () => {
-  if (typeof window === "undefined") return null;
+  const [user, setUser] = useState<UserDto | null>(null);
 
-  const getUserJson = localStorage.getItem("user");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const getUserJson = localStorage.getItem("user");
 
-  if (!getUserJson) {
-    redirect("/");
+      if (!getUserJson) {
+        redirect("/");
+      }
+
+      const { user } = JSON.parse(getUserJson);
+      setUser(user);
+    }
+  }, []);
+
+  if (!user) {
+    return null;
   }
-
-  const { user }: { user: UserDto } = JSON.parse(getUserJson);
 
   const { userName, userRole } = user;
 
