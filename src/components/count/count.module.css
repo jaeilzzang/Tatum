@@ -9,8 +9,15 @@
 }
 
 .count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  box-sizing: border-box;
+
+  min-width: 24px;
+  height: 24px;
   font-size: 12px;
-  padding: 2px 3px;
   border-radius: 50%;
   border: 1px solid var(--teal-9);
   font-weight: 700;
