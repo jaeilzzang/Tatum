@@ -1,4 +1,5 @@
 import { UserDto } from "@/app/api/auth/type";
+import { QUERY_KEY_USER_ROLE } from "@/app/api/list/user/route";
 import { TFilterItem } from "@/components/filter";
 import { TSelectItem } from "@/components/select";
 import { TCell } from "@/components/table";
@@ -12,12 +13,13 @@ export const selectSearchItem: TSelectItem[] = [
 export const filterItem: TFilterItem[] = [
   {
     title: "사용자권한",
+    queryKey: QUERY_KEY_USER_ROLE,
     filter: {
       type: "checkbox",
       list: [
         { id: "admin", name: "Admin" },
-        { id: "prime", name: "Prime User" },
-        { id: "regular", name: "Regular User" },
+        { id: "primeuser", name: "Prime User" },
+        { id: "regularuser", name: "Regular User" },
         { id: "viewer", name: "Viewer" },
       ],
     },

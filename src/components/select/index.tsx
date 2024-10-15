@@ -1,7 +1,7 @@
 "use client";
 
 import { Select as RadixSelect } from "@radix-ui/themes";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 
 export type TSelectItem = {
   value: string;
@@ -17,19 +17,12 @@ const Select = ({ item }: Props) => {
     item[0].value
   );
 
-  const selectValue = useMemo(
-    () => item.filter((e) => e.value === selectVal),
-    [selectVal, item]
-  );
-
-  const notSelectValue = useMemo(
-    () => item.filter((e) => e.value !== selectVal),
-    [selectVal, item]
-  );
+  const selectValue = item.filter((e) => e.value === selectVal);
+  const notSelectValue = item.filter((e) => e.value !== selectVal);
 
   return (
     <RadixSelect.Root
-      defaultValue={selectVal}
+      defaultValue={item[0].value}
       onValueChange={(e) => setSelectVal(e)}
     >
       <RadixSelect.Trigger />

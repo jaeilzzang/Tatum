@@ -47,7 +47,6 @@ const handleFetch: TFetchHandler = async (url, options?) => {
 export const fetchUtils: TFetchUtilsType = {
   get: async ({ url, options }) => {
     const newUrl = baseUrl + url;
-
     return handleFetch(newUrl, { method: "GET", ...options });
   },
 

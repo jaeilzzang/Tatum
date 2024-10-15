@@ -1,14 +1,15 @@
 "use client";
 
-import Select, { TSelectItem } from "@/components/select";
+import Select from "@/components/select";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Button, Flex, IconButton, TextField } from "@radix-ui/themes";
-import React from "react";
+import React, { ComponentProps } from "react";
 
 import styles from "./select-search.module.css";
 
-interface Props {
-  item: TSelectItem[];
+type SelectProps = ComponentProps<typeof Select>;
+
+interface Props extends SelectProps {
   buttonName: string;
 }
 
