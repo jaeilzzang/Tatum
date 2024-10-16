@@ -8,12 +8,12 @@ import styles from "./table.module.css";
 
 type SortState = Record<string, boolean>;
 
-export type TCell<T> = {
+export type TCell<T = string> = {
   label: string;
-  key: T;
+  value: T;
 };
 
-interface Props<T = string> {
+interface Props {
   /**
    * table data
    */
@@ -21,13 +21,13 @@ interface Props<T = string> {
   /**
    * table header
    */
-  cell: TCell<T>[];
+  cell: TCell[];
 }
 
 const Table = ({ rows, cell }: Props) => {
   // todo sort 구현
   const initSortState = cell.reduce((acc, cur) => {
-    acc[cur.key] = true;
+    acc[cur.value] = true;
     return acc;
   }, {} as SortState);
 
@@ -45,12 +45,12 @@ const Table = ({ rows, cell }: Props) => {
       <RadixTable.Root>
         <RadixTable.Header>
           <RadixTable.Row>
-            {cell.map(({ label, key }, i) => (
+            {cell.map(({ label, value }, i) => (
               <RadixTable.ColumnHeaderCell
                 key={i}
                 width={"200px"}
                 align="center"
-                onClick={() => handleSort(key)}
+                onClick={() => handleSort(value)}
                 className={styles.header_cell}
               >
                 <div className={styles.cell}>
@@ -67,9 +67,11 @@ const Table = ({ rows, cell }: Props) => {
         <RadixTable.Body>
           {rows.map((row, rowIndex) => (
             <RadixTable.Row key={rowIndex}>
-              {cell.map(({ key }, cellIndex) => {
+              {cell.map(({ value }, cellIndex) => {
                 return (
-                  <RadixTable.Cell key={cellIndex}>{row[key]}</RadixTable.Cell>
+                  <RadixTable.Cell key={cellIndex}>
+                    {row[value]}
+                  </RadixTable.Cell>
                 );
               })}
             </RadixTable.Row>

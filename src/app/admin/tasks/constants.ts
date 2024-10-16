@@ -1,17 +1,35 @@
 import {
   QUERY_KEY_STATUS,
   QUERY_KEY_TASK_TYPE,
-} from "@/app/api/list/tasks/route";
-import type { TTaskItemDto } from "@/app/api/list/tasks/type";
+} from "@/app/api/admin/tasks/route";
+import type {
+  TTaskItemDto,
+  TTaskStatus,
+  TTaskType,
+} from "@/app/api/admin/tasks/type";
 import type { TFilterItem } from "@/components/filter";
-import type { TSelectItem } from "@/components/select";
 import type { TCell } from "@/components/table";
+import type { GenericItemType } from "@/types";
 
-export const selectSearchItem: TSelectItem[] = [
-  { label: "Task Name", value: "taskName" },
+type GenericTasksType = GenericItemType<keyof TTaskItemDto, string>[];
+
+export const selectSearchItem: GenericTasksType = [
+  { label: "Task Name", value: "taskname" },
   { label: "Reporter", value: "reporter" },
-  { label: "Description", value: "description" },
+  { label: "Description", value: "taskdescription" },
   { label: "담당자(Assignee)", value: "assignee" },
+];
+
+export const filterTaskType: GenericItemType<TTaskType>[] = [
+  { label: "택배요청", value: "택배요청" },
+  { label: "물품구매", value: "물품구매" },
+];
+
+export const filterTaskStatus: GenericItemType<TTaskStatus>[] = [
+  { value: "created", label: "Created" },
+  { value: "in progress", label: "In Progress" },
+  { value: "delayed", label: "Delayed" },
+  { value: "done", label: "Done" },
 ];
 
 export const filterItem: TFilterItem[] = [
@@ -20,10 +38,7 @@ export const filterItem: TFilterItem[] = [
     queryKey: QUERY_KEY_TASK_TYPE,
     filter: {
       type: "checkbox",
-      list: [
-        { id: "택배요청", name: "택배요청" },
-        { id: "물품구매", name: "물품구매" },
-      ],
+      list: filterTaskType,
     },
   },
   {
@@ -31,47 +46,42 @@ export const filterItem: TFilterItem[] = [
     queryKey: QUERY_KEY_STATUS,
     filter: {
       type: "checkbox",
-      list: [
-        { id: "created", name: "Created" },
-        { id: "in progress", name: "In Progress" },
-        { id: "delayed", name: "Delayed" },
-        { id: "done", name: "Done" },
-      ],
+      list: filterTaskStatus,
     },
   },
 ];
 
 export const cell: TCell<keyof TTaskItemDto>[] = [
   {
-    key: "taskName",
+    value: "taskName",
     label: "Task Name",
   },
   {
-    key: "taskType",
+    value: "taskType",
     label: "Task Type",
   },
   {
-    key: "createdAt",
+    value: "createdAt",
     label: "Created At",
   },
   {
-    key: "dueDate",
+    value: "dueDate",
     label: "Due Date",
   },
   {
-    key: "reporter",
+    value: "reporter",
     label: "Reporter",
   },
   {
-    key: "taskDescription",
+    value: "taskDescription",
     label: "Description",
   },
   {
-    key: "assignee",
+    value: "assignee",
     label: "담당자(Assignee)",
   },
   {
-    key: "status",
+    value: "status",
     label: "상태(Status)",
   },
 ];

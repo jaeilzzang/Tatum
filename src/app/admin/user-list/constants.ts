@@ -1,13 +1,22 @@
 import { UserDto } from "@/app/api/auth/type";
-import { QUERY_KEY_USER_ROLE } from "@/app/api/list/user/route";
-import { TFilterItem } from "@/components/filter";
-import { TSelectItem } from "@/components/select";
-import { TCell } from "@/components/table";
+import { QUERY_KEY_USER_ROLE } from "@/app/api/admin/user-list/route";
+import type { TFilterItem } from "@/components/filter";
+import type { TCell } from "@/components/table";
+import type { GenericItemType } from "@/types";
 
-export const selectSearchItem: TSelectItem[] = [
-  { label: "User Name", value: "name" },
-  { label: "User Email", value: "email" },
-  { label: "User Phone", value: "phone" },
+type GenericUserType = GenericItemType<keyof UserDto>[];
+
+export const selectSearchItem: GenericUserType = [
+  { label: "User Name", value: "username" },
+  { label: "User Email", value: "useremail" },
+  { label: "User Phone", value: "userphone" },
+];
+
+export const filterList: GenericItemType<UserDto["userRole"]>[] = [
+  { value: "admin", label: "Admin" },
+  { value: "primeuser", label: "Prime User" },
+  { value: "regularuser", label: "Regular User" },
+  { value: "viewer", label: "Viewer" },
 ];
 
 export const filterItem: TFilterItem[] = [
@@ -16,39 +25,34 @@ export const filterItem: TFilterItem[] = [
     queryKey: QUERY_KEY_USER_ROLE,
     filter: {
       type: "checkbox",
-      list: [
-        { id: "admin", name: "Admin" },
-        { id: "primeuser", name: "Prime User" },
-        { id: "regularuser", name: "Regular User" },
-        { id: "viewer", name: "Viewer" },
-      ],
+      list: filterList,
     },
   },
 ];
 
 export const cell: TCell<keyof UserDto>[] = [
   {
-    key: "userName",
+    value: "userName",
     label: "User Name",
   },
   {
-    key: "userEmail",
+    value: "userEmail",
     label: "User Email",
   },
   {
-    key: "userRole",
+    value: "userRole",
     label: "User Role",
   },
   {
-    key: "userPhone",
+    value: "userPhone",
     label: "User Phone",
   },
   {
-    key: "createdAt",
+    value: "createdAt",
     label: "Created At",
   },
   {
-    key: "lastLoggedInAt",
+    value: "lastLoggedInAt",
     label: "Last Logged In At",
   },
 ];

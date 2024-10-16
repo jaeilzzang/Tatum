@@ -1,34 +1,18 @@
 "use client";
 
 import { Select as RadixSelect } from "@radix-ui/themes";
-import React, { useState } from "react";
+import React from "react";
+import useSelect from "./hooks";
 
-export type TSelectItem = {
-  value: string;
-  label: string;
-} & RadixSelect.ItemProps;
-
-interface Props {
-  item: TSelectItem[];
-}
-
-const Select = ({ item }: Props) => {
-  const [selectVal, setSelectVal] = useState<TSelectItem["value"]>(
-    item[0].value
-  );
-
-  const selectValue = item.filter((e) => e.value === selectVal);
-  const notSelectValue = item.filter((e) => e.value !== selectVal);
+const Select = () => {
+  const { notSelectList, onValueChange, selectList, selectVal } = useSelect();
 
   return (
-    <RadixSelect.Root
-      defaultValue={item[0].value}
-      onValueChange={(e) => setSelectVal(e)}
-    >
+    <RadixSelect.Root defaultValue={selectVal} onValueChange={onValueChange}>
       <RadixSelect.Trigger />
       <RadixSelect.Content>
         <RadixSelect.Group>
-          {selectValue.map(({ value, label }) => {
+          {selectList.map(({ value, label }) => {
             return (
               <RadixSelect.Item key={label} value={value} disabled>
                 {label}
@@ -38,7 +22,7 @@ const Select = ({ item }: Props) => {
         </RadixSelect.Group>
         <RadixSelect.Separator />
         <RadixSelect.Group>
-          {notSelectValue.map(({ value, label }) => {
+          {notSelectList.map(({ value, label }) => {
             return (
               <RadixSelect.Item key={label} value={value}>
                 {label}

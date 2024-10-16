@@ -1,7 +1,8 @@
 export type TTaskStatus = "Done" | "Delayed" | "In Progress" | "Created";
+export type TTaskType = "택배요청" | "물품구매";
 
-export interface TTaskItemDto {
-  taskType: string;
+export type TTaskItemDto = {
+  taskType: TTaskType;
   taskName: string;
   taskDescription: string;
   assignee: string;
@@ -10,4 +11,4 @@ export interface TTaskItemDto {
   dueDate: string;
   createdAt: string;
   completedAt: string;
-}
+};
