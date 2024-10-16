@@ -25,7 +25,7 @@ type Props = HeadingProps &
 
 // mvc view
 const ListPageTemplate = (props: Props) => {
-  const { title, filterItem, rows, cell, buttonEl, disabled } = props;
+  const { title, filterItem, rows, cell, buttonEl, disabled, item } = props;
 
   return (
     <Flex m={"4"} direction={"column"} width={"100%"}>
@@ -35,7 +35,7 @@ const ListPageTemplate = (props: Props) => {
       </Flex>
 
       <Flex gap={"4"} mt={"8"}>
-        <SelectSearchForm />
+        <SelectSearchForm item={item} />
 
         <Button className={styles.button} disabled={disabled} asChild>
           {buttonEl}

@@ -14,11 +14,13 @@ export interface TSelectContext {
   selectVal: string;
   setSelectVal: React.Dispatch<React.SetStateAction<TSelectItem["value"]>>;
   onValueChange: (id: string) => void;
-  item: TSelectItem[];
+  item?: TSelectItem[];
+  label?: string;
 }
 
 export interface SelectProviderProps {
-  item: TSelectItem[];
+  item?: TSelectItem[];
+  label?: string;
 }
 
 export const SelectContext = createContext<TSelectContext | null>(null);
@@ -26,13 +28,14 @@ export const SelectContext = createContext<TSelectContext | null>(null);
 const SelectProvider = ({
   children,
   item,
+  label,
 }: PropsWithChildren<SelectProviderProps>) => {
   const [selectVal, setSelectVal] = useState<TSelectItem["value"]>(
-    item[0].value
+    item ? item[0].value : ""
   );
 
-  const selectList = item.filter((e) => e.value === selectVal);
-  const notSelectList = item.filter((e) => e.value !== selectVal);
+  const selectList = item?.filter((e) => e.value === selectVal) || [];
+  const notSelectList = item?.filter((e) => e.value !== selectVal) || [];
 
   const onValueChange = (id: string) => setSelectVal(id);
 
@@ -43,6 +46,7 @@ const SelectProvider = ({
     setSelectVal,
     onValueChange,
     item,
+    label,
   };
 
   return (
@@ -50,4 +54,4 @@ const SelectProvider = ({
   );
 };
 
-export const SelectRoot = SelectProvider;
+export default SelectProvider;

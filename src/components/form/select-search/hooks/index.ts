@@ -25,7 +25,7 @@ export const useSelectSearch = () => {
 
     const currentParams = new URLSearchParams(searchParams.toString());
 
-    item.forEach((e) => {
+    item?.forEach((e) => {
       // 기존 select 필터 모두 삭제
       currentParams.delete(e.value);
     });

@@ -11,8 +11,6 @@ import { ROUTE } from "@/constants/route";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { SelectRoot } from "@/components/select/provider";
-
 import CreateTaskModal from "./components/modal/create-task";
 import ListPageTemplate from "@/components/template/list-page";
 
@@ -42,16 +40,15 @@ const TasksListPage = async ({ searchParams }: Props) => {
   });
 
   return (
-    <SelectRoot item={selectSearchItem}>
-      <ListPageTemplate
-        cell={cell}
-        rows={getTasks}
-        filterItem={filterItem}
-        title="Tasks List"
-        disabled={disabled}
-        buttonEl={<CreateTaskModal />}
-      />
-    </SelectRoot>
+    <ListPageTemplate
+      cell={cell}
+      rows={getTasks}
+      filterItem={filterItem}
+      title="Tasks List"
+      disabled={disabled}
+      item={selectSearchItem}
+      buttonEl={<CreateTaskModal />}
+    />
   );
 };
 

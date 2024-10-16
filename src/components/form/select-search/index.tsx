@@ -1,13 +1,26 @@
 "use client";
 
-import Select from "@/components/select";
+import { Select, SelectRoot } from "@/components/select";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Flex, IconButton, TextField } from "@radix-ui/themes";
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
 import { useSelectSearch } from "./hooks";
+import { TSelectItem } from "@/components/select/provider";
 
-const SelectSearchForm = () => {
+interface Props {
+  item: TSelectItem[];
+}
+
+const SelectSearchForm = ({ item }: PropsWithChildren<Props>) => {
+  return (
+    <SelectRoot item={item}>
+      <SelectSearchFormRoot />
+    </SelectRoot>
+  );
+};
+
+const SelectSearchFormRoot = () => {
   const { ref, onSubmit } = useSelectSearch();
 
   return (

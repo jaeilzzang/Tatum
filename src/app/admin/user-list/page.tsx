@@ -11,7 +11,6 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ROUTE } from "@/constants/route";
 
-import { SelectRoot } from "@/components/select/provider";
 import ListPageTemplate from "@/components/template/list-page";
 import Button from "@/components/button";
 
@@ -45,16 +44,15 @@ const UserListPage = async ({ searchParams }: Props) => {
   });
 
   return (
-    <SelectRoot item={selectSearchItem}>
-      <ListPageTemplate
-        title="User List"
-        cell={cell}
-        rows={getUserList}
-        filterItem={filterItem}
-        disabled={user.userRole !== "Admin"}
-        buttonEl={<Button>Invite User</Button>}
-      />
-    </SelectRoot>
+    <ListPageTemplate
+      title="User List"
+      cell={cell}
+      rows={getUserList}
+      filterItem={filterItem}
+      item={selectSearchItem}
+      disabled={user.userRole !== "Admin"}
+      buttonEl={<Button>Invite User</Button>}
+    />
   );
 };
 

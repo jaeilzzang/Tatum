@@ -1,0 +1,8 @@
+.error {
+  color: var(--red-9);
+}
+
+.input_error {
+  color: var(--red-9);
+  border: 1px solid var(--red-9);
+}
