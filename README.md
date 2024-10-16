@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### 환경
 
-## Getting Started
+- "next": "14.2.15",
+- "react": "^18",
+- "react-dom": "^18"
+- @radix-ui/themes + @radix-ui/primitive
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 폴더 구조
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- src/app/
+- src/app/admin/\*\*
+- src/app/api/\*\*
+- src/data => mock data
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 구현
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- "/" : 로그인 페이지
 
-## Learn More
+  - email 은 mock user_list 에 있는 이메일 아무거나 사용 가능
+  - 비밀번호 아무거나 5자 이상
+  - 로그인 실패시 별도의 에러 메시지 UI 없음
 
-To learn more about Next.js, take a look at the following resources:
+- "/admin/user-list"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  - checkbox filter + select box + text field 필터 구현
+  - invite User button role 로 구분
+  - viewer는 요구사항대로 접근금지
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- "/admin/tasks"
 
-## Deploy on Vercel
+  - checkbox 멀티라인 연동 + select box + text field 필터 구현
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  - Create Tasks button role 별로 구분
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  ***
+
+### 미구현 부분
+
+시간이 부족으로 Create Tasks UI만 있고 기능은 구현하지 못했습니다.
