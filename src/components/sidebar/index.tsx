@@ -18,6 +18,7 @@ import { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ROUTE } from "@/constants/route";
+import { useAuth } from "@/hooks/use-auth";
 
 export type TSidebarMenu = {
   name: string;
@@ -28,6 +29,7 @@ export type TSidebarMenu = {
 const sidebarWidth = "200px";
 
 const Sidebar = () => {
+  const user = useAuth();
   const pathname = usePathname();
 
   const { toggle, handleToggle } = useToggle();
@@ -62,16 +64,25 @@ const Sidebar = () => {
         <Flex width={sidebarWidth} height={"100vh"} justify={"center"} mt={"9"}>
           <Box className={styles.nav_container}>
             {sidebarMenu.map(({ href, icon, name }) => {
+              // 요구사항
+              // viewer 는 tasks 페이지에 접근 불가
+              const roleDisabled =
+                name === "Tasks" && user?.userRole === "Viewer";
+
               return (
                 <IconButton
                   key={name}
                   asChild
+                  disabled={roleDisabled}
                   className={clsx(styles.nav, {
                     [styles.active]: pathname === href,
                     [styles.nav_close]: toggle,
                   })}
                 >
-                  <Link href={href}>
+                  <Link
+                    href={href}
+                    onClick={(e) => roleDisabled && e.preventDefault()}
+                  >
                     {icon}
                     {!toggle ? name : ""}
                   </Link>
