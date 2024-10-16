@@ -1,4 +1,5 @@
 import Sidebar from "@/components/sidebar";
+import { ROUTE } from "@/constants/route";
 import { Flex } from "@radix-ui/themes";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -13,7 +14,7 @@ const AdminLayout = ({ children }: PropsWithChildren) => {
   // 미들웨어에서 처리해도 되지만
   // Route 마다 처리해주는 것은 admin 메인 도메인 layout 에서 auth guard를 만드는 것이 더 직관적이라 판단
   if (!getUser) {
-    redirect("/");
+    redirect(ROUTE.HOME);
   }
 
   return (

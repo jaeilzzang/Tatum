@@ -55,7 +55,9 @@ export default function Home() {
     if (userData) {
       // 인증 완료 시 유저 데이터 저장
       localStorage.setItem("user", JSON.stringify(userData));
-      route.push(ROUTE.ADMIN.USERS);
+      const href =
+        userData.userRole === "Viewer" ? ROUTE.ADMIN.TASKS : ROUTE.ADMIN.USERS;
+      route.push(href);
     }
   };
 
@@ -75,7 +77,7 @@ export default function Home() {
       </Dialog.Open>
 
       <Dialog.Content>
-        <Dialog.Title title="Task 생성" Icons={<AvatarIcon color="white" />} />
+        <Dialog.Title title="로그인" Icons={<AvatarIcon color="white" />} />
         <form onSubmit={handleSubmit}>
           <Flex my="5" direction="column" gap="5">
             <label>

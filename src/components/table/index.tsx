@@ -1,5 +1,6 @@
 "use client";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 import { Flex, Table as RadixTable } from "@radix-ui/themes";
 import React, { useState } from "react";
@@ -17,6 +18,7 @@ interface Props {
   /**
    * table data
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rows: any[];
   /**
    * table header
@@ -31,6 +33,7 @@ const Table = ({ rows, cell }: Props) => {
     return acc;
   }, {} as SortState);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sort, setSort] = useState<SortState>(() => initSortState);
 
   const handleSort = (key: string) => {

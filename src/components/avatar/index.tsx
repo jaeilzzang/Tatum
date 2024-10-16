@@ -1,26 +1,10 @@
-"use client";
-
-import { UserDto } from "@/app/api/auth/type";
+import { useAuth } from "@/hooks/use-auth";
 import { AvatarIcon } from "@radix-ui/react-icons";
 import { Flex, Text } from "@radix-ui/themes";
-import { redirect } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const Avatar = () => {
-  const [user, setUser] = useState<UserDto | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const getUserJson = localStorage.getItem("user");
-
-      if (!getUserJson) {
-        redirect("/");
-      }
-
-      const { user } = JSON.parse(getUserJson);
-      setUser(user);
-    }
-  }, []);
+  const user = useAuth();
 
   if (!user) {
     return null;

@@ -67,7 +67,7 @@ const Sidebar = () => {
               // 요구사항
               // viewer 는 tasks 페이지에 접근 불가
               const roleDisabled =
-                name === "Tasks" && user?.userRole === "Viewer";
+                href === ROUTE.ADMIN.USERS && user?.userRole === "Viewer";
 
               return (
                 <IconButton

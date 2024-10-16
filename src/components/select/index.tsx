@@ -3,13 +3,14 @@
 import { Select as RadixSelect } from "@radix-ui/themes";
 import React from "react";
 import useSelect from "./hooks";
+import styles from "./select.module.css";
 
 const Select = () => {
   const { notSelectList, onValueChange, selectList, selectVal } = useSelect();
 
   return (
     <RadixSelect.Root defaultValue={selectVal} onValueChange={onValueChange}>
-      <RadixSelect.Trigger />
+      <RadixSelect.Trigger className={styles.select_box} />
       <RadixSelect.Content>
         <RadixSelect.Group>
           {selectList.map(({ value, label }) => {

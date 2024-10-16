@@ -2,7 +2,9 @@
 
 import React from "react";
 
-import { Flex, Heading } from "@radix-ui/themes";
+import styles from "./list-page.module.css";
+
+import { Button, Flex, Heading } from "@radix-ui/themes";
 import Avatar from "@/components/avatar";
 import Count from "../count";
 import Filter from "../filter";
@@ -13,11 +15,17 @@ type SelectSearchFormProps = React.ComponentProps<typeof SelectSearchForm>;
 type FilterProps = React.ComponentProps<typeof Filter>;
 type TableProps = React.ComponentProps<typeof Table>;
 type HeadingProps = { title: string };
+type ButtonProps = { buttonEl?: JSX.Element; disabled?: boolean };
 
-type Props = HeadingProps & SelectSearchFormProps & FilterProps & TableProps;
+type Props = HeadingProps &
+  SelectSearchFormProps &
+  FilterProps &
+  TableProps &
+  ButtonProps;
 
+// mvc view
 const ListPageTemplate = (props: Props) => {
-  const { title, buttonName, filterItem, rows, cell } = props;
+  const { title, filterItem, rows, cell, buttonEl, disabled } = props;
 
   return (
     <Flex m={"4"} direction={"column"} width={"100%"}>
@@ -27,7 +35,11 @@ const ListPageTemplate = (props: Props) => {
       </Flex>
 
       <Flex gap={"4"} mt={"8"}>
-        <SelectSearchForm buttonName={buttonName} />
+        <SelectSearchForm />
+
+        <Button className={styles.button} disabled={disabled} asChild>
+          {buttonEl}
+        </Button>
       </Flex>
 
       <Flex mt={"8"} mb={"1"}>

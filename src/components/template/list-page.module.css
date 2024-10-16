@@ -1,0 +1,7 @@
+.button {
+  background-color: var(--teal-11);
+
+  &:disabled {
+    background-color: var(--gray-10);
+  }
+}
