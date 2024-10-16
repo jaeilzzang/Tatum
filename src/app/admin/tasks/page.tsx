@@ -33,6 +33,12 @@ const TasksListPage = async ({ searchParams }: Props) => {
 
   const getTasks = await fetchUtils.get<TTaskItemDto[]>({
     url: `${API_ROUTE.ADMIN.TASKS}?${createQueryString(searchParams)}`,
+    options: {
+      headers: {
+        // token 대신
+        user: JSON.stringify(user),
+      },
+    },
   });
 
   return (

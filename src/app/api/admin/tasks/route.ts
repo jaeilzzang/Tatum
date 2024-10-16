@@ -3,17 +3,38 @@ import { promises as fs } from "fs";
 import { TTaskItemDto } from "./type";
 import { NextRequest } from "next/server";
 import { keys, normalizeStr } from "@/utils/utils-string";
+import { UserDto } from "../../auth/type";
 
 export const QUERY_KEY_TASK_TYPE = "tasktype";
 export const QUERY_KEY_STATUS = "status";
 
 export async function GET(req: NextRequest) {
-  const filePath = path.join(process.cwd(), "src", "data", "task_list.json");
-
   const searchParams = req.nextUrl.searchParams;
 
+  const userJson = req.headers.get("user");
+
+  if (!userJson) {
+    return new Response(null, {
+      status: 400,
+      statusText: "not found user",
+    });
+  }
+
+  const filePath = path.join(process.cwd(), "src", "data", "task_list.json");
   const jsonData = await fs.readFile(filePath, "utf-8");
   const data: TTaskItemDto[] = JSON.parse(jsonData);
+
+  const user: UserDto = JSON.parse(userJson);
+  const rbac = data.filter((e) => {
+    if (user.userRole === "RegularUser") {
+      // create 한 사람만 접근 가능
+      // reporter가 createdUser? 인지 잘 모르겠음
+      return normalizeStr(e.reporter) === normalizeStr(user.userName);
+    } else if (user.userRole === "Viewer") {
+      return normalizeStr(e.assignee) === normalizeStr(user.userName);
+    }
+    return e;
+  });
 
   const filterKey = Object.keys(data[0]).map(normalizeStr);
 
@@ -29,11 +50,11 @@ export async function GET(req: NextRequest) {
     });
 
   if (!filterMap.length) {
-    return Response.json(data);
+    return Response.json(rbac);
   }
 
   // 필터 조건 처리
-  const filteredData = data.filter((user) => {
+  const filteredData = rbac.filter((user) => {
     return filterMap.every((filter) => {
       const key = keys(filter)[0]; // 필터 조건의 키
       const filterValues = filter[key]; // 필터 값 배열

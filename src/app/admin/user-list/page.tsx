@@ -36,6 +36,12 @@ const UserListPage = async ({ searchParams }: Props) => {
 
   const getUserList = await fetchUtils.get<UserDto[]>({
     url: `${API_ROUTE.ADMIN.USER_LIST}?${createQueryString(searchParams)}`,
+    options: {
+      headers: {
+        // token 대신
+        user: JSON.stringify(user),
+      },
+    },
   });
 
   return (

@@ -7,12 +7,29 @@ import { keys, normalizeStr } from "@/utils/utils-string";
 export const QUERY_KEY_USER_ROLE = "";
 
 export async function GET(req: NextRequest) {
-  const filePath = path.join(process.cwd(), "src", "data", "user_list.json");
-
   const searchParams = req.nextUrl.searchParams;
 
+  const userJson = req.headers.get("user");
+
+  if (!userJson) {
+    return new Response(null, {
+      status: 400,
+      statusText: "not found user",
+    });
+  }
+
+  const filePath = path.join(process.cwd(), "src", "data", "user_list.json");
   const jsonData = await fs.readFile(filePath, "utf-8");
   const data: UserDto[] = JSON.parse(jsonData);
+
+  const user: UserDto = JSON.parse(userJson);
+  const rbac = data.filter((e) => {
+    if (user.userRole === "RegularUser") {
+      // RegularUser  본인에 대한 정보만 볼 수 있음.
+      return normalizeStr(e.userName) === normalizeStr(user.userName);
+    }
+    return e;
+  });
 
   const filterKey = Object.keys(data[0]).map(normalizeStr);
 
@@ -30,10 +47,10 @@ export async function GET(req: NextRequest) {
   // 필터가 없을 경우 전체 데이터 출력
   // 필터가 4개 모두 들어올 경우 전체 데이터 출력
   if (!filterMap.length) {
-    return Response.json(data);
+    return Response.json(rbac);
   }
 
-  const filteredData = data.filter((user) => {
+  const filteredData = rbac.filter((user) => {
     return filterMap.every((filter) => {
       const key = keys(filter)[0]; // 필터 조건의 키
       const filterValues = filter[key]; // 필터 값 배열
